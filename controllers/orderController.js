@@ -51,12 +51,13 @@ export const viewOrder = async(req, res, next) => {
 
 //Inserts an Order into the database
 export const addOrder = async(req, res, next) => {
-    const { order_tot, delivery_status, order_date, quantity, user_id, meals_id } = req.body
+    const { order_tot, delivery_status, quantity, user_id, meals_id } = req.body;
+    const currentDate = new Date()
 
     const sqlQuery = `INSERT INTO orders (order_tot, delivery_status, order_date, quantity, user_id, meals_id)
                     VALUES (?, ?, ?, ?, ?, ?)`
 
-    const [orders, fields] = await pool.query(sqlQuery, [order_tot, delivery_status, order_date, quantity, user_id, meals_id])
+    const [orders, fields] = await pool.query(sqlQuery, [order_tot, delivery_status, currentDate, quantity, user_id, meals_id])
 
     //Request has succeeded and one or multiple resource being created
     res.status(201).json({
